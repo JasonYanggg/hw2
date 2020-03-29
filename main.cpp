@@ -21,45 +21,45 @@ int main(void)
         ADCdata[i] = Ain;
         wait(1./sample);
     }
-    tmp = (ADCdata[0] > 0 ? true : false);
+    tmp = (ADCdata[0] > 0.3 ? true : false);
     for (i = 1; i < sample; i++) {
-        if ((ADCdata[i] > 0) != tmp) {
+        if ((ADCdata[i] > 0.3) != tmp) {
             tmp = !tmp;
             break;
         }
     }
     for (j = 0; i < sample; i++, j++) {
-        if ((ADCdata[i] > 0) != tmp) {
+        if ((ADCdata[i] > 0.3) != tmp) {
             break;
         }
     }
     freq = int(1.0/(2.0*j/sample));
-    // for (i = 0; i < sample; i++) {
-    //     pc.printf("%1.3f\r\n", ADCdata[i]);
-    //     wait(0.1);
-    // }
-    pc.printf("%d\r\n", freq);
+    for (i = 0; i < sample; i++) {
+        pc.printf("%1.3f\r\n", ADCdata[i]);
+        wait(0.1);
+    }
+    // pc.printf("%d\r\n", freq);
     for (i = freq, j = 0; i != 0; i /= 10, j++) {
             dis[j] = i % 10;
     }
-    for (i = j - 1; i >= 0; i--) {
-        pc.printf("%d\r\n", dis[i]);
-    }
+    // for (i = j - 1; i >= 0; i--) {
+    //     pc.printf("%d\r\n", dis[i]);
+    // }
     while (1) {
         if (Switch == 1) {
             greenLED = 0;
             redLED = 1;
+            display = 0x0;
+        }
+        else {
+            redLED = 0;
+            greenLED = 1;
             for (i = j - 1; i > 0; i--) {
                 display = table[dis[i]];
                 wait(1);
             }
             display = table[dis[0]] | 0x80;
             wait(1);
-        }
-        else {
-            redLED = 0;
-            greenLED = 1;
-            display = 0x0;
         }
     }
     
