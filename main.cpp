@@ -14,6 +14,7 @@ int i, j;
 int sample = 1024;
 int freq, dis[10];
 bool tmp;
+float k;
 
 int main(void)
 {
@@ -38,18 +39,18 @@ int main(void)
         pc.printf("%1.3f\r\n", ADCdata[i]);
         wait(0.02);
     }
-    pc.printf("%d\r\n", freq);
     for (i = freq, j = 0; i != 0; i /= 10, j++) {
             dis[j] = i % 10;
     }
-    // for (i = j - 1; i >= 0; i--) {
-    //     pc.printf("%d\r\n", dis[i]);
-    // }
     while (1) {
         if (Switch == 1) {
             greenLED = 0;
             redLED = 1;
             display = 0x0;
+            for (k = 0; k < 1; k += 1.0/sample) {
+                Aout = 0.5 + 0.5 * sin(2 * 3.14159 * freq * k);
+                wait(1./sample);
+            }
         }
         else {
             redLED = 0;
