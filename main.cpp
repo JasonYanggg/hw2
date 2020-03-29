@@ -36,9 +36,9 @@ int main(void)
     freq = int(1.0/(2.0*j/sample));
     for (i = 0; i < sample; i++) {
         pc.printf("%1.3f\r\n", ADCdata[i]);
-        wait(0.1);
+        wait(0.02);
     }
-    // pc.printf("%d\r\n", freq);
+    pc.printf("%d\r\n", freq);
     for (i = freq, j = 0; i != 0; i /= 10, j++) {
             dis[j] = i % 10;
     }
@@ -62,5 +62,4 @@ int main(void)
             wait(1);
         }
     }
-    
 }
